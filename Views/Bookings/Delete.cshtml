@@ -1,0 +1,37 @@
+@model PlantNurseryManagement.Models.Booking
+@{
+    ViewData["Title"] = "Delete Booking";
+}
+<h2>Delete Booking</h2>
+@if (Model != null)
+{
+    <div class="card mb-3" style="max-width: 400px;">
+        <div class="row g-0">
+            <div class="col-md-4">
+                @if (!string.IsNullOrEmpty(Model.Plant.ImageUrl))
+                {
+                    <img src="@Model.Plant.ImageUrl" class="img-fluid rounded-start" alt="@Model.Plant.Name" />
+                }
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">@Model.Plant.Name</h5>
+                    <p class="card-text">@Model.Plant.Description</p>
+                    <p class="card-text"><strong>Price:</strong> @Model.Plant.Price</p>
+                    <p class="card-text"><strong>Available:</strong> @Model.Plant.QuantityAvailable</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <dl class="row">
+        <dt class="col-sm-4">Quantity</dt>
+        <dd class="col-sm-8">@Model.Quantity</dd>
+        <dt class="col-sm-4">Booking Date</dt>
+        <dd class="col-sm-8">@Model.BookingDate.ToString("yyyy-MM-dd HH:mm")</dd>
+    </dl>
+    <form asp-action="Delete" method="post">
+        <input type="hidden" name="id" value="@Model.BookingId" />
+        <button type="submit" class="btn btn-danger">Delete</button>
+        <a asp-action="MyBookings" class="btn btn-secondary">Cancel</a>
+    </form>
+} 

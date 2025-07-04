@@ -1,0 +1,39 @@
+@model PlantNurseryManagement.Models.Booking
+@{
+    ViewData["Title"] = "Edit Booking";
+}
+<h2>Edit Booking</h2>
+@if (Model != null)
+{
+    <div class="card mb-3" style="max-width: 400px;">
+        <div class="row g-0">
+            <div class="col-md-4">
+                @if (!string.IsNullOrEmpty(Model.Plant.ImageUrl))
+                {
+                    <img src="@Model.Plant.ImageUrl" class="img-fluid rounded-start" alt="@Model.Plant.Name" />
+                }
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">@Model.Plant.Name</h5>
+                    <p class="card-text">@Model.Plant.Description</p>
+                    <p class="card-text"><strong>Price:</strong> @Model.Plant.Price</p>
+                    <p class="card-text"><strong>Available:</strong> @Model.Plant.QuantityAvailable</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <form asp-action="Edit" method="post">
+        <input type="hidden" name="id" value="@Model.BookingId" />
+        <div class="form-group">
+            <label for="quantity">Quantity</label>
+            <input type="number" name="quantity" class="form-control" min="1" max="@Model.Plant.QuantityAvailable" value="@Model.Quantity" required />
+            <span asp-validation-for="Quantity" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+        <a asp-action="MyBookings" class="btn btn-secondary">Back to My Bookings</a>
+    </form>
+}
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+} 

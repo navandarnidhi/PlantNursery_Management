@@ -1,0 +1,38 @@
+@model IEnumerable<PlantNurseryManagement.Models.Plant>
+@{
+    ViewData["Title"] = "Plants";
+}
+<div class="dashboard-card plant-theme shadow-lg p-4 animate__animated animate__fadeIn">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="fw-bold mb-0"><i class="bi bi-flower1 me-2"></i>Plants</h2>
+        <a class="btn btn-success px-4 py-2 shadow-sm" asp-action="Create"><i class="bi bi-plus-circle me-1"></i> Add New Plant</a>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-hover align-middle rounded-3 overflow-hidden">
+            <thead class="table-success">
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="fw-semibold">@item.Name</td>
+                    <td class="text-muted">@item.Description</td>
+                    <td><span class="badge bg-success bg-opacity-75"><i class="bi bi-currency-rupee"></i> @item.Price</span></td>
+                    <td><span class="badge bg-info text-dark">@item.QuantityAvailable</span></td>
+                    <td>
+                        <a class="btn btn-sm btn-warning me-1" asp-action="Edit" asp-route-id="@item.PlantId"><i class="bi bi-pencil-square"></i> Edit</a>
+                        <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@item.PlantId"><i class="bi bi-trash"></i> Delete</a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div> 

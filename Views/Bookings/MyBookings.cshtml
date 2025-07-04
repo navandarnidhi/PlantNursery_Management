@@ -1,0 +1,52 @@
+@model IEnumerable<PlantNurseryManagement.Models.Booking>
+@{
+    ViewData["Title"] = "My Bookings";
+}
+<div class="dashboard-card plant-theme shadow-lg p-4 animate__animated animate__fadeIn">
+    <h2 class="fw-bold mb-3"><i class="bi bi-calendar-check me-2"></i>My Bookings</h2>
+    <div class="table-responsive">
+        <table class="table table-hover align-middle rounded-3 overflow-hidden">
+            <thead class="table-success">
+                <tr>
+                    <th>Plant</th>
+                    <th>Quantity</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var booking in Model)
+            {
+                <tr>
+                    <td>@booking.Plant?.Name</td>
+                    <td><span class="badge bg-info text-dark">@booking.Quantity</span></td>
+                    <td>@booking.BookingDate.ToString("yyyy-MM-dd HH:mm")</td>
+                    <td>
+                        @if (booking.Status == "Pending")
+                        {
+                            <span class="badge bg-warning text-dark">Pending</span>
+                        }
+                        else if (booking.Status == "Approved")
+                        {
+                            <span class="badge bg-success">Approved</span>
+                        }
+                        else if (booking.Status == "Cancelled")
+                        {
+                            <span class="badge bg-danger">Cancelled</span>
+                        }
+                    </td>
+                    <td>
+                        @if (booking.Status == "Pending")
+                        {
+                            <a class="btn btn-sm btn-warning me-1" asp-action="Edit" asp-route-id="@booking.BookingId"><i class="bi bi-pencil-square"></i> Edit</a>
+                            <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@booking.BookingId"><i class="bi bi-trash"></i> Delete</a>
+                        }
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+    <a asp-controller="Plants" asp-action="UserList" class="btn btn-secondary mt-3"><i class="bi bi-arrow-left"></i> Back to Plants</a>
+</div> 

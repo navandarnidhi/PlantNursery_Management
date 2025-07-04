@@ -1,0 +1,47 @@
+@model PlantNurseryManagement.Models.Plant
+@{
+    ViewData["Title"] = "Book Plant";
+}
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="dashboard-card plant-theme shadow-lg p-4 animate__animated animate__fadeIn" style="max-width: 500px; width: 100%;">
+        <h2 class="text-center mb-4 fw-bold"><i class="bi bi-calendar2-plus me-2"></i>Book Plant</h2>
+        <div class="card mb-3 border-0 bg-light">
+            <div class="row g-0 align-items-center">
+                <div class="col-md-4 text-center">
+                    @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                    {
+                        <img src="@Model.ImageUrl" class="img-fluid rounded shadow-sm" alt="@Model.Name" style="max-height: 90px;" />
+                    }
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body p-2">
+                        <h5 class="card-title mb-1">@Model.Name</h5>
+                        <p class="card-text small mb-1">@Model.Description</p>
+                        <p class="card-text mb-1"><strong>Price:</strong> @Model.Price</p>
+                        <p class="card-text mb-0"><strong>Available:</strong> @Model.QuantityAvailable</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <form asp-action="Create" method="post">
+            <input type="hidden" name="plantId" value="@Model.PlantId" />
+            <div class="form-group mb-3">
+                <label for="quantity" class="fw-semibold">Quantity</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-white"><i class="bi bi-plus-circle"></i></span>
+                    <input type="number" name="quantity" class="form-control" min="1" max="@Model.QuantityAvailable" value="1" required />
+                </div>
+                <span asp-validation-for="QuantityAvailable" class="text-danger"></span>
+            </div>
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-success flex-fill shadow-sm">Book</button>
+                <a asp-controller="Plants" asp-action="UserList" class="btn btn-secondary flex-fill">Back to Plants</a>
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
