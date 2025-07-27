@@ -6,25 +6,28 @@
 <div class="container mt-4">
     <div class="row">
         <div class="col-12">
+            <div class="text-center mb-5">
+                <h1 class="display-4 text-success mb-3">
+                    <i class="bi bi-flower1 me-3"></i>Welcome to Plant Nursery
+                </h1>
+                <p class="lead text-muted">Discover beautiful plants for your home and garden</p>
+                <div class="mt-4">
+                    <a href="@Url.Action("Register", "Account")" class="btn btn-success btn-lg me-3">
+                        <i class="bi bi-person-plus me-2"></i>Sign Up
+                    </a>
+                    <a href="@Url.Action("Login", "Account")" class="btn btn-outline-success btn-lg">
+                        <i class="bi bi-person me-2"></i>Login
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-12">
             <h2 class="text-success mb-4">
-                <i class="bi bi-flower1 me-2"></i>Available Plants
+                <i class="bi bi-shop me-2"></i>Available Plants
             </h2>
-            
-            @if (TempData["Success"] != null)
-            {
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    @TempData["Success"]
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-            }
-            
-            @if (TempData["Error"] != null)
-            {
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    @TempData["Error"]
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-            }
         </div>
     </div>
     
@@ -58,18 +61,15 @@
                             
                             @if (item.QuantityAvailable > 0)
                             {
-                                <form asp-controller="Cart" asp-action="AddToCart" method="post" class="d-flex gap-2">
-                                    <input type="hidden" name="plantId" value="@item.PlantId" />
-                                    <input type="number" name="quantity" value="1" min="1" max="@item.QuantityAvailable" 
-                                           class="form-control form-control-sm" style="width: 80px;" />
-                                    <button type="submit" class="btn btn-success btn-sm flex-grow-1">
-                                        <i class="bi bi-cart-plus me-1"></i>Add to Cart
-                                    </button>
-                                </form>
+                                <div class="d-grid">
+                                    <a href="@Url.Action("Login", "Account")" class="btn btn-success">
+                                        <i class="bi bi-cart-plus me-1"></i>Login to Add to Cart
+                                    </a>
+                                </div>
                             }
                             else
                             {
-                                <button class="btn btn-secondary btn-sm w-100" disabled>
+                                <button class="btn btn-secondary w-100" disabled>
                                     <i class="bi bi-x-circle me-1"></i>Out of Stock
                                 </button>
                             }
@@ -88,6 +88,35 @@
             <p class="text-muted">Check back later for new arrivals!</p>
         </div>
     }
+    
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="card bg-light">
+                <div class="card-body text-center">
+                    <h4 class="text-success mb-3">
+                        <i class="bi bi-star me-2"></i>Why Choose Our Plants?
+                    </h4>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <i class="bi bi-truck text-success" style="font-size: 2rem;"></i>
+                            <h6 class="mt-2">Free Shipping</h6>
+                            <small class="text-muted">On orders above ₹999</small>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <i class="bi bi-shield-check text-success" style="font-size: 2rem;"></i>
+                            <h6 class="mt-2">Quality Guaranteed</h6>
+                            <small class="text-muted">Healthy and well-cared plants</small>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <i class="bi bi-headset text-success" style="font-size: 2rem;"></i>
+                            <h6 class="mt-2">Expert Support</h6>
+                            <small class="text-muted">24/7 customer service</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <style>

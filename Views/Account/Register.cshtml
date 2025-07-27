@@ -2,36 +2,212 @@
 @{
     ViewData["Title"] = "Register";
 }
-<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
-    <div class="dashboard-card plant-theme shadow-lg p-4 animate__animated animate__fadeIn" style="max-width: 400px; width: 100%;">
-        <h2 class="text-center mb-4 fw-bold">User Registration</h2>
-        <form asp-action="Register" method="post">
-            <div class="form-group mb-3">
-                <label asp-for="Name" class="fw-semibold"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-success text-white text-center py-4">
+                    <h2 class="mb-0">
+                        <i class="bi bi-person-plus me-2"></i>Create Your Account
+                    </h2>
+                    <p class="mb-0 mt-2">Join our plant-loving community today!</p>
+                </div>
+                <div class="card-body p-5">
+                    <form asp-action="Register" method="post">
+                        <div class="row">
+                            <!-- Personal Information -->
+                            <div class="col-md-6">
+                                <h5 class="text-success mb-3">
+                                    <i class="bi bi-person me-2"></i>Personal Information
+                                </h5>
+                                
+                                <div class="mb-3">
+                                    <label asp-for="Name" class="form-label fw-semibold"></label>
+                                    <input asp-for="Name" class="form-control" placeholder="Enter your full name" />
+                                    <span asp-validation-for="Name" class="text-danger small"></span>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label asp-for="Email" class="form-label fw-semibold"></label>
+                                    <input asp-for="Email" class="form-control" placeholder="Enter your email address" />
+                                    <span asp-validation-for="Email" class="text-danger small"></span>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label asp-for="PhoneNumber" class="form-label fw-semibold"></label>
+                                    <input asp-for="PhoneNumber" class="form-control" placeholder="Enter your phone number" />
+                                    <span asp-validation-for="PhoneNumber" class="text-danger small"></span>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label asp-for="UserType" class="form-label fw-semibold"></label>
+                                    <select asp-for="UserType" class="form-select">
+                                        <option value="User">Customer</option>
+                                        <option value="Admin">Admin</option>
+                                    </select>
+                                    <span asp-validation-for="UserType" class="text-danger small"></span>
+                                </div>
+                            </div>
+
+                            <!-- Address Information -->
+                            <div class="col-md-6">
+                                <h5 class="text-success mb-3">
+                                    <i class="bi bi-geo-alt me-2"></i>Address Information
+                                </h5>
+                                
+                                <div class="mb-3">
+                                    <label asp-for="Address" class="form-label fw-semibold"></label>
+                                    <textarea asp-for="Address" class="form-control" rows="3" placeholder="Enter your complete address"></textarea>
+                                    <span asp-validation-for="Address" class="text-danger small"></span>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label asp-for="City" class="form-label fw-semibold"></label>
+                                        <input asp-for="City" class="form-control" placeholder="City" />
+                                        <span asp-validation-for="City" class="text-danger small"></span>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label asp-for="State" class="form-label fw-semibold"></label>
+                                        <input asp-for="State" class="form-control" placeholder="State" />
+                                        <span asp-validation-for="State" class="text-danger small"></span>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label asp-for="PinCode" class="form-label fw-semibold"></label>
+                                    <input asp-for="PinCode" class="form-control" placeholder="PIN Code" />
+                                    <span asp-validation-for="PinCode" class="text-danger small"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Password Section -->
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <h5 class="text-success mb-3">
+                                    <i class="bi bi-shield-lock me-2"></i>Security Information
+                                </h5>
+                                
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label asp-for="Password" class="form-label fw-semibold"></label>
+                                        <input asp-for="Password" class="form-control" type="password" placeholder="Enter your password" />
+                                        <span asp-validation-for="Password" class="text-danger small"></span>
+                                        <small class="text-muted">Password must be at least 6 characters long</small>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label asp-for="ConfirmPassword" class="form-label fw-semibold"></label>
+                                        <input asp-for="ConfirmPassword" class="form-control" type="password" placeholder="Confirm your password" />
+                                        <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Terms and Conditions -->
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="termsCheck" required>
+                                    <label class="form-check-label" for="termsCheck">
+                                        I agree to the <a href="#" class="text-success">Terms and Conditions</a> and <a href="#" class="text-success">Privacy Policy</a>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-success btn-lg">
+                                        <i class="bi bi-person-plus me-2"></i>Create Account
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Login Link -->
+                        <div class="row mt-3">
+                            <div class="col-12 text-center">
+                                <p class="mb-0">
+                                    Already have an account? 
+                                    <a asp-action="Login" class="text-success fw-semibold">Login here</a>
+                                </p>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="form-group mb-3">
-                <label asp-for="Email" class="fw-semibold"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group mb-3">
-                <label asp-for="Password" class="fw-semibold"></label>
-                <input asp-for="Password" class="form-control" type="password" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-group mb-4">
-                <label asp-for="ConfirmPassword" class="fw-semibold"></label>
-                <input asp-for="ConfirmPassword" class="form-control" type="password" />
-                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-            </div>
-            <div class="d-grid gap-2">
-                <button type="submit" class="btn btn-success btn-block shadow-sm">Register</button>
-            </div>
-        </form>
+        </div>
     </div>
 </div>
+
+<style>
+.card {
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.card-header {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+}
+
+.form-control, .form-select {
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #28a745;
+    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+}
+
+.btn-success {
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.btn-success:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+}
+
+.form-check-input:checked {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+</style>
+
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
+    <script>
+        // Password strength indicator
+        document.getElementById('Password').addEventListener('input', function() {
+            const password = this.value;
+            const strength = getPasswordStrength(password);
+            updatePasswordStrengthIndicator(strength);
+        });
+
+        function getPasswordStrength(password) {
+            let strength = 0;
+            if (password.length >= 6) strength++;
+            if (password.match(/[a-z]/)) strength++;
+            if (password.match(/[A-Z]/)) strength++;
+            if (password.match(/[0-9]/)) strength++;
+            if (password.match(/[^a-zA-Z0-9]/)) strength++;
+            return strength;
+        }
+
+        function updatePasswordStrengthIndicator(strength) {
+            const strengthText = ['Very Weak', 'Weak', 'Fair', 'Good', 'Strong'];
+            const strengthColor = ['#dc3545', '#fd7e14', '#ffc107', '#28a745', '#20c997'];
+            
+            // You can add a visual indicator here if needed
+        }
+    </script>
 } 

@@ -22,6 +22,11 @@ public partial class MyNurseryDbContext : DbContext
     public virtual DbSet<Plant> Plants { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
+    
+    // New DbSets for e-commerce functionality
+    public virtual DbSet<CartItem> CartItems { get; set; }
+    public virtual DbSet<Order> Orders { get; set; }
+    public virtual DbSet<OrderItem> OrderItems { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
@@ -83,6 +88,61 @@ public partial class MyNurseryDbContext : DbContext
             entity.Property(e => e.Email).HasMaxLength(100);
             entity.Property(e => e.Name).HasMaxLength(100);
             entity.Property(e => e.PasswordHash).HasMaxLength(255);
+            
+            // New User fields
+            entity.Property(e => e.PhoneNumber).HasMaxLength(15);
+            entity.Property(e => e.Address).HasMaxLength(500);
+            entity.Property(e => e.City).HasMaxLength(50);
+            entity.Property(e => e.State).HasMaxLength(50);
+            entity.Property(e => e.PinCode).HasMaxLength(10);
+        });
+        
+        // New entity configurations for e-commerce functionality
+        modelBuilder.Entity<CartItem>(entity =>
+        {
+            entity.HasKey(e => e.CartItemId);
+            
+            entity.Property(e => e.AddedDate).HasColumnType("datetime");
+            
+            entity.HasOne(d => d.User).WithMany(p => p.CartItems)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+                
+            entity.HasOne(d => d.Plant).WithMany(p => p.CartItems)
+                .HasForeignKey(d => d.PlantId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+        
+        modelBuilder.Entity<Order>(entity =>
+        {
+            entity.HasKey(e => e.OrderId);
+            
+            entity.Property(e => e.OrderDate).HasColumnType("datetime");
+            entity.Property(e => e.TotalAmount).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.Status).HasMaxLength(20);
+            entity.Property(e => e.PaymentStatus).HasMaxLength(20);
+            entity.Property(e => e.ShippingAddress).HasMaxLength(500);
+            entity.Property(e => e.PhoneNumber).HasMaxLength(20);
+            
+            entity.HasOne(d => d.User).WithMany(p => p.Orders)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+        
+        modelBuilder.Entity<OrderItem>(entity =>
+        {
+            entity.HasKey(e => e.OrderItemId);
+            
+            entity.Property(e => e.UnitPrice).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.TotalPrice).HasColumnType("decimal(10, 2)");
+            
+            entity.HasOne(d => d.Order).WithMany(p => p.OrderItems)
+                .HasForeignKey(d => d.OrderId)
+                .OnDelete(DeleteBehavior.Cascade);
+                
+            entity.HasOne(d => d.Plant).WithMany(p => p.OrderItems)
+                .HasForeignKey(d => d.PlantId)
+                .OnDelete(DeleteBehavior.Cascade);
         });
 
         OnModelCreatingPartial(modelBuilder);

@@ -1,0 +1,63 @@
+-- SQL Script to add new tables for e-commerce functionality
+-- Run this script after the existing database setup
+
+USE MyNurseryDB;
+GO
+
+-- Create CartItems table
+CREATE TABLE CartItems (
+    CartItemId INT IDENTITY(1,1) PRIMARY KEY,
+    UserId INT NOT NULL,
+    PlantId INT NOT NULL,
+    Quantity INT NOT NULL,
+    AddedDate DATETIME NOT NULL DEFAULT GETDATE(),
+    FOREIGN KEY (UserId) REFERENCES Users(UserId) ON DELETE CASCADE,
+    FOREIGN KEY (PlantId) REFERENCES Plants(PlantId) ON DELETE CASCADE
+);
+
+-- Create Orders table
+CREATE TABLE Orders (
+    OrderId INT IDENTITY(1,1) PRIMARY KEY,
+    UserId INT NOT NULL,
+    OrderDate DATETIME NOT NULL DEFAULT GETDATE(),
+    TotalAmount DECIMAL(10,2) NOT NULL,
+    Status NVARCHAR(20) NOT NULL DEFAULT 'Pending',
+    PaymentStatus NVARCHAR(20) NOT NULL DEFAULT 'Pending',
+    ShippingAddress NVARCHAR(500) NULL,
+    PhoneNumber NVARCHAR(20) NULL,
+    FOREIGN KEY (UserId) REFERENCES Users(UserId) ON DELETE CASCADE
+);
+
+-- Create OrderItems table
+CREATE TABLE OrderItems (
+    OrderItemId INT IDENTITY(1,1) PRIMARY KEY,
+    OrderId INT NOT NULL,
+    PlantId INT NOT NULL,
+    Quantity INT NOT NULL,
+    UnitPrice DECIMAL(10,2) NOT NULL,
+    TotalPrice DECIMAL(10,2) NOT NULL,
+    FOREIGN KEY (OrderId) REFERENCES Orders(OrderId) ON DELETE CASCADE,
+    FOREIGN KEY (PlantId) REFERENCES Plants(PlantId) ON DELETE CASCADE
+);
+
+-- Add some sample plants for testing
+INSERT INTO Plants (Name, Description, Price, ImageUrl, QuantityAvailable) VALUES
+('Monstera Deliciosa', 'Beautiful Swiss cheese plant with distinctive leaf holes', 1200.00, '/images/monstera.jpg', 15),
+('Snake Plant', 'Low maintenance indoor plant that purifies air', 800.00, '/images/snake-plant.jpg', 20),
+('Peace Lily', 'Elegant flowering plant perfect for home decoration', 950.00, '/images/peace-lily.jpg', 12),
+('Fiddle Leaf Fig', 'Trendy indoor tree with large violin-shaped leaves', 1800.00, '/images/fiddle-leaf.jpg', 8),
+('Pothos Golden', 'Easy-care trailing plant with golden variegation', 650.00, '/images/pothos.jpg', 25),
+('ZZ Plant', 'Drought-tolerant plant with glossy leaves', 750.00, '/images/zz-plant.jpg', 18),
+('Aloe Vera', 'Medicinal succulent plant with healing properties', 450.00, '/images/aloe-vera.jpg', 30),
+('Spider Plant', 'Air-purifying plant with spider-like offshoots', 550.00, '/images/spider-plant.jpg', 22);
+
+-- Add sample admin user
+INSERT INTO Admins (Name, Email, PasswordHash) VALUES
+('Admin User', 'admin@plantnursery.com', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918');
+
+-- Note: The PasswordHash above is for password 'admin'
+-- You can generate your own hash using SHA256 for any password
+
+PRINT 'Database updated successfully with e-commerce tables!';
+PRINT 'Sample plants and admin user have been added.';
+PRINT 'Admin login: admin@plantnursery.com / admin'; 

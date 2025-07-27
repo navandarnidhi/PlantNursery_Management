@@ -19,6 +19,13 @@ namespace PlantNurseryManagement.Controllers
             return HttpContext.Session.GetString("UserRole") == "Admin";
         }
 
+        // GET: Plants/Shop - Public access for shopping
+        public async Task<IActionResult> Shop()
+        {
+            var plants = await _context.Plants.Where(p => p.QuantityAvailable > 0).ToListAsync();
+            return View(plants);
+        }
+
         // GET: Plants
         public async Task<IActionResult> Index()
         {
@@ -109,13 +116,13 @@ namespace PlantNurseryManagement.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: Plants/UserList
+        // GET: Plants/UserList - For logged-in users
         public async Task<IActionResult> UserList()
         {
-            // Only for logged-in users
             if (HttpContext.Session.GetString("UserRole") != "User")
                 return RedirectToAction("Login", "Account");
-            return View(await _context.Plants.ToListAsync());
+            var plants = await _context.Plants.Where(p => p.QuantityAvailable > 0).ToListAsync();
+            return View(plants);
         }
     }
 } 

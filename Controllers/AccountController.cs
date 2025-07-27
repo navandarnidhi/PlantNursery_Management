@@ -29,20 +29,55 @@ namespace PlantNurseryManagement.Controllers
         {
             if (ModelState.IsValid)
             {
+                // Check if email already exists
                 if (await _context.Users.AnyAsync(u => u.Email == model.Email))
                 {
                     ModelState.AddModelError("Email", "Email already exists.");
                     return View(model);
                 }
-                var user = new User
+
+                // Check if admin email already exists
+                if (await _context.Admins.AnyAsync(a => a.Email == model.Email))
                 {
-                    Name = model.Name,
-                    Email = model.Email,
-                    PasswordHash = HashPassword(model.Password)
-                };
-                _context.Users.Add(user);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Login");
+                    ModelState.AddModelError("Email", "Email already exists.");
+                    return View(model);
+                }
+
+                if (model.UserType == "Admin")
+                {
+                    // Register as Admin
+                    var admin = new Admin
+                    {
+                        Name = model.Name,
+                        Email = model.Email,
+                        PasswordHash = HashPassword(model.Password)
+                    };
+                    _context.Admins.Add(admin);
+                    await _context.SaveChangesAsync();
+                    
+                    TempData["Success"] = "Admin account created successfully! Please login.";
+                    return RedirectToAction("Login");
+                }
+                else
+                {
+                    // Register as User
+                    var user = new User
+                    {
+                        Name = model.Name,
+                        Email = model.Email,
+                        PhoneNumber = model.PhoneNumber,
+                        Address = model.Address,
+                        City = model.City,
+                        State = model.State,
+                        PinCode = model.PinCode,
+                        PasswordHash = HashPassword(model.Password)
+                    };
+                    _context.Users.Add(user);
+                    await _context.SaveChangesAsync();
+                    
+                    TempData["Success"] = "Account created successfully! Please login.";
+                    return RedirectToAction("Login");
+                }
             }
             return View(model);
         }
@@ -60,6 +95,7 @@ namespace PlantNurseryManagement.Controllers
         {
             if (ModelState.IsValid)
             {
+                // Try to find user
                 var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
                 if (user != null && VerifyPassword(model.Password, user.PasswordHash))
                 {
@@ -67,6 +103,16 @@ namespace PlantNurseryManagement.Controllers
                     HttpContext.Session.SetString("UserRole", "User");
                     return RedirectToAction("UserDashboard", "Account");
                 }
+
+                // Try to find admin
+                var admin = await _context.Admins.FirstOrDefaultAsync(a => a.Email == model.Email);
+                if (admin != null && VerifyPassword(model.Password, admin.PasswordHash))
+                {
+                    HttpContext.Session.SetString("UserEmail", admin.Email);
+                    HttpContext.Session.SetString("UserRole", "Admin");
+                    return RedirectToAction("AdminDashboard", "Account");
+                }
+
                 ModelState.AddModelError(string.Empty, "Invalid login attempt.");
             }
             return View(model);

@@ -1,0 +1,24 @@
+-- SQL Script to add new fields to Users table
+-- Run this script to update the existing database
+
+USE MyNurseryDB;
+GO
+
+-- Add new columns to Users table
+ALTER TABLE Users ADD PhoneNumber NVARCHAR(15) NULL;
+ALTER TABLE Users ADD Address NVARCHAR(500) NULL;
+ALTER TABLE Users ADD City NVARCHAR(50) NULL;
+ALTER TABLE Users ADD State NVARCHAR(50) NULL;
+ALTER TABLE Users ADD PinCode NVARCHAR(10) NULL;
+
+-- Update existing users with sample data (optional)
+UPDATE Users SET 
+    PhoneNumber = '+91 98765 43210',
+    Address = 'Sample Address',
+    City = 'Mumbai',
+    State = 'Maharashtra',
+    PinCode = '400001'
+WHERE PhoneNumber IS NULL;
+
+PRINT 'Users table updated successfully with new fields!';
+PRINT 'New fields added: PhoneNumber, Address, City, State, PinCode'; 

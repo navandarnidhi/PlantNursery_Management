@@ -18,4 +18,8 @@ public partial class Plant
     public int QuantityAvailable { get; set; }
 
     public virtual ICollection<Booking> Bookings { get; set; } = new List<Booking>();
+    
+    // New navigation properties for e-commerce functionality
+    public virtual ICollection<CartItem> CartItems { get; set; } = new List<CartItem>();
+    public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
 }

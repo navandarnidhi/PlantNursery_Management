@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PlantNurseryManagement")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5d9384c87074926009cc755048aca6620b1724dc")]
 [assembly: System.Reflection.AssemblyProductAttribute("PlantNurseryManagement")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PlantNurseryManagement")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
